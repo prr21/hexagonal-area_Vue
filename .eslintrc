@@ -1,0 +1,14 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2019,
+    "sourceType": "module"
+  },
+  "extends": ["eslint:recommended"],
+  "rules": {
+    "no-unused-vars": "warn",
+    "strict": ["error", "never"]
+  },
+  "env": {
+    "browser": true
+  }
+}

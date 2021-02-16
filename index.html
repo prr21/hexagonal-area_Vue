@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+      crossorigin="anonymous"
+    />
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="root" class="container">
+      <h1 class="text-center my-4" contenteditable></h1>
+      <div class="row">
+        <div class="col-2">
+          <input
+            type="number"
+            class="form-control form-control-lg mb-2"
+            v-model="sizeL"
+          />
+          <input
+            type="number"
+            class="form-control form-control-lg mb-2"
+            v-model="sizeM"
+          />
+          <input
+            type="number"
+            class="form-control form-control-lg mb-2"
+            v-model="sizeN"
+          />
+          <button
+            type="button"
+            class="btn btn-primary my-1"
+            v-on:click="renderHexagons"
+          >
+            Сгенерировать
+          </button>
+          <button
+            type="button"
+            class="btn btn-success my-1"
+            v-on:click="renderDomens"
+            v-if="hexagonRows.length"
+          >
+            Посчитать
+          </button>
+        </div>
+
+        <div class="col d-flex justify-content-center">
+          <div id="hexagon-holder">
+            <div
+              v-for="(hexagon, i) in hexagonRows"
+              class="hexagon"
+              :data-index="hexagon.index"
+              :data-row="hexagon.row"
+              :id="hexagon.id"
+              :style="hexagon.style"
+              @click="changeValue(hexagon.id)"
+            >
+              <b>{{ hexagon.value }}</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

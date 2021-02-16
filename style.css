@@ -1,0 +1,62 @@
+:root {
+  --shape-bg-default: #fff;
+  --offset-l: 13px 0 0 -23px;
+}
+
+h1 {
+  outline: none;
+}
+
+.hexagon-row {
+  margin: 13px 0 0;
+}
+
+#hexagon-holder {
+  position: relative;
+  width: 100%;
+}
+
+.hexagon {
+  position: absolute;
+  display: inline-block;
+  width: 50px;
+  height: 20px;
+  background-color: #45d1d9;
+  border-left: solid 2px #000000;
+  border-right: solid 2px #000000;
+  text-align: center;
+  line-height: 18px;
+  font-size: 18px;
+  cursor: pointer;
+  user-select: none;
+}
+.hexagon b {
+  position: relative;
+  z-index: 5;
+}
+
+.hexagon:before,
+.hexagon:after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  width: 35.36px;
+  height: 35.36px;
+  -webkit-transform: scaleY(0.5774) rotate(-45deg);
+  -ms-transform: scaleY(0.5774) rotate(-45deg);
+  transform: scaleY(0.5774) rotate(-45deg);
+  background-color: inherit;
+  left: 5.3223px;
+}
+
+.hexagon:before {
+  top: -17.6777px;
+  border-top: solid 2.8284px #000000;
+  border-right: solid 2.8284px #000000;
+}
+
+.hexagon:after {
+  bottom: -17.6777px;
+  border-bottom: solid 2.8284px #000000;
+  border-left: solid 2.8284px #000000;
+}
