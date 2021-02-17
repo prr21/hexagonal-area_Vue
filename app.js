@@ -1,9 +1,8 @@
-const shapeWidth = 49
-const h = 20
-
 Vue.component("hexagon-row", {
   template: "#hexagon-holder",
 })
+
+// todo: dynamic center margin
 
 const app = new Vue({
   el: "#root",
@@ -11,29 +10,28 @@ const app = new Vue({
     renderHexagons: function () {
       if (!this.validateAreas()) return
 
-      let L = Number(this.area.L.size),
+      const shapeWidth = this.shape.width - 1
+      const shapeHeight = this.shape.height
+
+      const L = Number(this.area.L.size),
         M = Number(this.area.M.size),
         N = Number(this.area.N.size)
 
       const countOfRows = L + M - 1
-
       const rowsArr = []
+
       let i = L * -1
-      let countsOfType = N - 1
+      let countOfShapes = N - 1
 
       for (let rowI = 0; rowI < countOfRows; rowI++) {
-        let lefttoRight = rowI >= L
+        let leftToRight = rowI >= L
         i++
 
-        // cheta shlypa
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        if (rowI >= M) {
-          --countsOfType
-        } else if (lefttoRight) {
-          countsOfType
-        } else ++countsOfType
+        if (leftToRight) {
+          countOfShapes
+        } else countOfShapes++
 
-        let countOfShapes = countsOfType
+        if (rowI >= M) --countOfShapes
 
         const arrayLike = new Array(countOfShapes).fill("")
 
@@ -41,7 +39,7 @@ const app = new Vue({
           let offsetBetween = index * shapeWidth - index
           let offsetRow = (rowI * shapeWidth) / 2
 
-          let offsetMRrow = lefttoRight ? i * shapeWidth : 0
+          let offsetMRrow = leftToRight ? i * shapeWidth : 0
 
           let offset = offsetBetween - offsetRow + offsetMRrow
 
@@ -53,11 +51,11 @@ const app = new Vue({
             id: rowI + ":" + index,
             value: null,
             domen: null,
-            ltr: lefttoRight,
+            ltr: leftToRight,
             style: {
-              top: `${rowI * 32}px`,
+              top: `${rowI * 32 + rowI}px`, // change static 32
               left: offset + `px`,
-              backgroundColor: "var(--shape-bg-default)",
+              backgroundColor: "var(--white)",
             },
           }
         })
@@ -78,7 +76,7 @@ const app = new Vue({
 
       console.log(match)
 
-      match.forEach((shape) => (shape.style.backgroundColor = "red"))
+      match.forEach((shape) => (shape.style.backgroundColor = "var(--red)"))
     },
 
     validateAreas: function () {
@@ -89,16 +87,16 @@ const app = new Vue({
         const field = area[region]
 
         if (field.size > 30) {
-          toggleValid(field, false, "Значение не может быть больше 30!")
+          setValidStatus(field, false, "Значение не может быть больше 30!")
         } else if (field.size < 1) {
-          toggleValid(field, false, "Значение не может быть меньше 1!")
+          setValidStatus(field, false, "Значение не может быть меньше 1!")
         } else {
-          toggleValid(field, true)
+          setValidStatus(field, true)
         }
       }
       return valid
 
-      function toggleValid(field, status, msg) {
+      function setValidStatus(field, status, msg = "") {
         field.message = msg
         field.valid = status
 
@@ -124,6 +122,10 @@ const app = new Vue({
         valid: true,
         message: "",
       },
+    },
+    shape: {
+      width: 50,
+      height: 20,
     },
     hexagonRows: [],
   },

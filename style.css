@@ -1,8 +1,3 @@
-:root {
-  --shape-bg-default: #fff;
-  --offset-l: 13px 0 0 -23px;
-}
-
 h1 {
   outline: none;
 }
@@ -13,23 +8,27 @@ h1 {
 
 #hexagon-holder {
   position: relative;
-  width: 50%;
 }
 
 .hexagon {
   position: absolute;
-  display: inline-block;
   width: 50px;
   height: 20px;
-  background-color: #45d1d9;
   border-left: solid 2px #000000;
   border-right: solid 2px #000000;
   text-align: center;
   line-height: 18px;
   font-size: 18px;
+  transition: 0.1s;
   cursor: pointer;
   user-select: none;
 }
+
+.hexagon:hover {
+  -webkit-filter: brightness(0.8);
+  filter: brightness(0.8);
+}
+
 .hexagon b {
   position: relative;
   z-index: 5;

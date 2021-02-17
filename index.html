@@ -73,8 +73,6 @@
             <div
               v-for="(hexagon, i) in hexagonRows"
               class="hexagon"
-              :data-index="hexagon.index"
-              :data-row="hexagon.row"
               :id="hexagon.id"
               :style="hexagon.style"
               @click="changeValue(hexagon.id)"
