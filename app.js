@@ -9,20 +9,25 @@ const app = new Vue({
   el: "#root",
   methods: {
     renderHexagons: function () {
-      let { sizeL, sizeM, sizeN } = this
-      const countOfRows = sizeL + sizeM - 1
+      if (!this.validateAreas()) return
+
+      let L = Number(this.area.L.size),
+        M = Number(this.area.M.size),
+        N = Number(this.area.N.size)
+
+      const countOfRows = L + M - 1
 
       const rowsArr = []
-      let i = sizeL * -1
-      let countsOfType = sizeN - 1
+      let i = L * -1
+      let countsOfType = N - 1
 
       for (let rowI = 0; rowI < countOfRows; rowI++) {
-        let lefttoRight = rowI >= sizeL
+        let lefttoRight = rowI >= L
         i++
 
         // cheta shlypa
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        if (rowI >= sizeM) {
+        if (rowI >= M) {
           --countsOfType
         } else if (lefttoRight) {
           countsOfType
@@ -75,12 +80,51 @@ const app = new Vue({
 
       match.forEach((shape) => (shape.style.backgroundColor = "red"))
     },
+
+    validateAreas: function () {
+      const area = this.area
+      let valid = true
+
+      for (const region in area) {
+        const field = area[region]
+
+        if (field.size > 30) {
+          toggleValid(field, false, "Значение не может быть больше 30!")
+        } else if (field.size < 1) {
+          toggleValid(field, false, "Значение не может быть меньше 1!")
+        } else {
+          toggleValid(field, true)
+        }
+      }
+      return valid
+
+      function toggleValid(field, status, msg) {
+        field.message = msg
+        field.valid = status
+
+        if (!status) valid = false
+      }
+    },
   },
 
   data: {
-    sizeL: 3,
-    sizeM: 5,
-    sizeN: 7,
+    area: {
+      L: {
+        size: 3,
+        valid: true,
+        message: "",
+      },
+      M: {
+        size: 5,
+        valid: true,
+        message: "",
+      },
+      N: {
+        size: 7,
+        valid: true,
+        message: "",
+      },
+    },
     hexagonRows: [],
   },
 })
