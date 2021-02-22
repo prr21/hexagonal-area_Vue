@@ -1,22 +1,17 @@
-import checkConnect from "../services/checkConnect"
-import { colors } from "../services/colors"
+import distributeByDomens from "../services/distributeByDomens"
 
 export default function () {
+  window.prr = this.shapesArr
   const shapes = this.shapesArr.filter((shape) => shape.value)
-
-  const connected = shapes.filter((shape) => checkConnect(shape, shapes))
-
-  let domensId = connected
-    .map((a) => a.domen)
-    .filter((a, b, arr) => arr.indexOf(a) === b)
-    .sort((a, b) => a - b)
-
-  console.log(domensId)
+  const domens = distributeByDomens(shapes)
 
   this.shapesArr.forEach(
     (shape) => (shape.style.backgroundColor = "var(--light)")
   )
-  connected.forEach(
-    (shape) => (shape.style.backgroundColor = `var(${colors[shape.domen]}`)
-  )
+  console.log(domens)
+  domens.forEach(setColors)
+}
+
+function setColors({ shapes, color }) {
+  shapes.forEach((shape) => (shape.style.backgroundColor = `var(${color})`))
 }

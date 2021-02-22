@@ -32,6 +32,7 @@ h1 {
 }
 
 .hexagon > * {
+  font-size: 0.95rem;
   position: relative;
   z-index: 5;
 }

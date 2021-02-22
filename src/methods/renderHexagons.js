@@ -41,11 +41,10 @@ export default function () {
         index: index,
         id: rowI + ":" + index,
         value: null,
-        domen: null,
         style: {
           top: `${rowI * 32 + rowI}px`, // change static 32
           left: offset + `px`,
-          backgroundColor: "",
+          backgroundColor: "var(--light)",
         },
       }
     })
