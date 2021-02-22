@@ -1,0 +1,23 @@
+{
+  "name": "hexagonal-area_vue",
+  "version": "1.0.0",
+  "description": "Single Connected Hexonal Region",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prr21/hexagonal-area_Vue.git"
+  },
+  "keywords": [
+    "vue",
+    "js"
+  ],
+  "author": "Kurban <Mr.gustav009@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prr21/hexagonal-area_Vue/issues"
+  },
+  "homepage": "https://github.com/prr21/hexagonal-area_Vue#readme"
+}
