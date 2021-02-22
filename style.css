@@ -8,6 +8,8 @@ h1 {
 
 #hexagon-holder {
   position: relative;
+  left: -390px;
+  top: 110px;
 }
 
 .hexagon {
@@ -29,7 +31,7 @@ h1 {
   filter: brightness(0.8);
 }
 
-.hexagon b {
+.hexagon > * {
   position: relative;
   z-index: 5;
 }

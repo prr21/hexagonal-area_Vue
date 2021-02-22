@@ -10,7 +10,7 @@
       crossorigin="anonymous"
     />
     <title>Document</title>
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./src/style.css" />
   </head>
   <body>
     <div id="root" class="container">
@@ -62,7 +62,7 @@
             type="button"
             class="btn btn-success col mb-2"
             v-on:click="renderDomens"
-            v-if="hexagonRows.length"
+            v-if="shapesArr.length"
           >
             Посчитать
           </button>
@@ -71,13 +71,16 @@
         <div class="col d-flex justify-content-center">
           <div id="hexagon-holder">
             <div
-              v-for="(hexagon, i) in hexagonRows"
+              v-for="(hexagon, i) in shapesArr"
               class="hexagon"
               :id="hexagon.id"
               :style="hexagon.style"
               @click="changeValue(hexagon.id)"
             >
-              <b>{{ hexagon.value }}</b>
+              <!-- <b>{{ hexagon.value }}</b> -->
+              <i :style="{fontWeight: hexagon.value ? 900 : 100}"
+                >{{ hexagon.id }}</i
+              >
             </div>
           </div>
         </div>
@@ -85,6 +88,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
-    <script src="./app.js"></script>
+    <script src="./index.js"></script>
   </body>
 </html>
