@@ -44,7 +44,7 @@ export default function () {
         style: {
           top: `${rowI * 32 + rowI}px`, // change static 32
           left: offset + `px`,
-          backgroundColor: "var(--light)",
+          backgroundColor: "",
         },
       }
     })

@@ -66,6 +66,7 @@
           >
             Посчитать
           </button>
+          <b>{{domens.length}}</b>
         </div>
 
         <div class="col d-flex justify-content-center">
@@ -84,6 +85,42 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist" hidden>
+      <li class="nav-item">
+        <a
+          class="nav-link active"
+          id="by-user"
+          data-toggle="tab"
+          href="#by-user"
+          role="tab"
+          >Custom</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="auto" data-toggle="tab" href="#auto" role="tab"
+          >Auto</a
+        >
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent" hidden>
+      <div
+        class="tab-pane fade show active"
+        id="home"
+        role="tabpanel"
+        aria-labelledby="home-tab"
+      >
+        ...
+      </div>
+      <div
+        class="tab-pane fade"
+        id="profile"
+        role="tabpanel"
+        aria-labelledby="profile-tab"
+      >
+        ...
       </div>
     </div>
 

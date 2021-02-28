@@ -8,8 +8,8 @@ export default function () {
   this.shapesArr.forEach(
     (shape) => (shape.style.backgroundColor = "var(--light)")
   )
-  console.log(domens)
   domens.forEach(setColors)
+  this.domens = domens
 }
 
 function setColors({ shapes, color }) {

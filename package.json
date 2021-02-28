@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/prr21/hexagonal-area_Vue/issues"
   },
-  "homepage": "https://github.com/prr21/hexagonal-area_Vue#readme"
+  "homepage": "https://github.com/prr21/hexagonal-area_Vue#readme",
+  "devDependencies": {
+    "cssnano": "^4.1.10"
+  }
 }
