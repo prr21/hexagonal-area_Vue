@@ -1,3 +1,8 @@
+:root {
+  --blue: #00dcff;
+  --indigo: #b689ff;
+}
+
 h1 {
   outline: none;
 }
