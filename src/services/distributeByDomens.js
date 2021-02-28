@@ -1,46 +1,47 @@
 import { colors } from "../services/colors"
 
 export default function distributeByDomens(arr) {
-  let unsorted = [...arr]
-  let domens = []
+  const domens = []
+  let restShapes = [...arr]
 
-  for (let domenId = 0; domenId <= unsorted.length; domenId++) {
-    const shape = unsorted[domenId]
+  while (restShapes.length) {
+    const shape = restShapes[0]
+    const domen = defineChainByShape(shape)
 
-    const domen = renderDomen(shape)
-
-    domens.push({
-      shapes: domen,
-      id: domenId,
-      color: colors[domenId],
-    })
+    if (domen.length > 1) {
+      domens.push({
+        shapes: domen,
+        id: domens.length,
+        color: colors[domens.length],
+      })
+    }
   }
 
-  function renderDomen(shp, chainArr = []) {
-    let inOneChain = unsorted.filter(
+  return domens
+
+  function defineChainByShape(shp, chain = []) {
+    chain.push(shp)
+
+    // looking for connect with nearby shapes
+    let nearShps = restShapes.filter(
       (elem) =>
         notSame(elem, shp) && (inOneRow(elem, shp) || inOneCol(elem, shp))
     )
 
-    // If this chain initial
-    if (chainArr.length === 0) {
-      chainArr.push(shp)
-      unsorted = unsorted.filter((b) => b !== shp)
-    }
-    //need to refactor
+    // update arr by removing used shapes
+    restShapes = removeElemFromArr(shp, restShapes)
 
-    inOneChain.forEach((shpInChain) => {
-      chainArr.push(shpInChain)
-      unsorted = unsorted.filter((b) => b !== shpInChain)
-
-      renderDomen(shpInChain, chainArr)
+    // repeat unti chain connection ends
+    nearShps.forEach((shpInChain) => {
+      defineChainByShape(shpInChain, chain)
     })
 
-    return chainArr
+    return chain
   }
-
-  return domens
 }
+
+const removeElemFromArr = (elem, arr) =>
+  arr.filter((item) => notSame(item, elem))
 
 const notSame = (a, b) => a !== b
 
