@@ -5,10 +5,9 @@ export default function distributeByDomens(arr) {
   let domens = []
 
   for (let domenId = 0; domenId <= unsorted.length; domenId++) {
-    console.log(unsorted.lenght)
     const shape = unsorted[domenId]
-    console.log(domenId)
-    let domen = renderDomen(shape, [])
+
+    const domen = renderDomen(shape)
 
     domens.push({
       shapes: domen,
@@ -17,25 +16,27 @@ export default function distributeByDomens(arr) {
     })
   }
 
-  function renderDomen(shp, arr) {
-    let conShapesArr = unsorted.filter(
+  function renderDomen(shp, chainArr = []) {
+    let inOneChain = unsorted.filter(
       (elem) =>
         notSame(elem, shp) && (inOneRow(elem, shp) || inOneCol(elem, shp))
     )
-    let conShape = conShapesArr[0] // todo distrib by arr not by one
 
-    if (conShape) {
-      if (arr.length === 0) {
-        arr.push(shp)
-        unsorted = unsorted.filter((b) => b !== shp)
-      }
-
-      arr.push(conShape)
-      unsorted = unsorted.filter((b) => b !== conShape)
-
-      renderDomen(conShape, arr)
+    // If this chain initial
+    if (chainArr.length === 0) {
+      chainArr.push(shp)
+      unsorted = unsorted.filter((b) => b !== shp)
     }
-    return arr
+    //need to refactor
+
+    inOneChain.forEach((shpInChain) => {
+      chainArr.push(shpInChain)
+      unsorted = unsorted.filter((b) => b !== shpInChain)
+
+      renderDomen(shpInChain, chainArr)
+    })
+
+    return chainArr
   }
 
   return domens
