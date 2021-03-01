@@ -1,3 +1,6 @@
-const colors = document.styleSheets[0].rules[0].style
+import { numberByRange } from "./random"
 
-export { colors }
+// bootstrap :root colors
+export const rootColors = document.styleSheets[0].rules[0].style
+
+export const randomColor = () => "#" + numberByRange(0, 16777215).toString(16)

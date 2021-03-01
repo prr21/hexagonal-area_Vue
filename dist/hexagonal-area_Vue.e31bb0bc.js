@@ -117,13 +117,72 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"src/methods/renderHexagons.js":[function(require,module,exports) {
+})({"src/services/validate.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+// have to refactor
+var _default = {
+  areaInputs: function areaInputs(data) {
+    var inputs = data;
+    var validForm = true;
+
+    for (var inp in inputs) {
+      var fields = inputs[inp];
+
+      if (fields.size > 30) {
+        setStatus(fields, false, "Значение не может быть больше 30!");
+      } else if (fields.size < 1) {
+        setStatus(fields, false, "Значение не может быть меньше 1!");
+      } else {
+        setStatus(fields, true);
+      }
+
+      if (!fields.valid) validForm = false;
+    }
+
+    return validForm;
+  },
+  randomInputs: function randomInputs(data) {
+    var inputs = data;
+    var validForm = true;
+
+    for (var inp in inputs) {
+      var fields = inputs[inp];
+
+      if (fields.value > 0.99 || fields.value < 0.01) {
+        setStatus(fields, false, "0.01 – 0.99!");
+      } else {
+        setStatus(fields, true);
+      }
+
+      if (!fields.valid) validForm = false;
+    }
+
+    return validForm;
+  }
+};
+exports.default = _default;
+
+function setStatus(fields, status) {
+  var msg = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
+  fields.message = msg;
+  fields.valid = status;
+}
+},{}],"src/methods/renderHexagons.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = _default;
+
+var _validate = _interopRequireDefault(require("../services/validate"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -137,13 +196,14 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
+// have to refactor
 function _default() {
-  if (!this.validateAreas()) return;
+  if (!_validate.default.areaInputs(this.areaInp)) return;
   var shapeWidth = this.shape.width - 1;
   var shapeHeight = this.shape.height;
-  var L = Number(this.area.L.size),
-      M = Number(this.area.M.size),
-      N = Number(this.area.N.size);
+  var L = Number(this.areaInp.L.size),
+      M = Number(this.areaInp.M.size),
+      N = Number(this.areaInp.N.size);
   var countOfRows = L + M - 1;
   var rowsArr = [];
   var i = L * -1;
@@ -187,7 +247,7 @@ function _default() {
 
   this.shapesArr = rowsArr;
 }
-},{}],"src/methods/changeValue.js":[function(require,module,exports) {
+},{"../services/validate":"src/services/validate.js"}],"src/methods/changeValue.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -201,16 +261,49 @@ function _default(id) {
   });
   target.value = +!target.value;
 }
+},{}],"src/services/random.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.numberByRange = exports.number = void 0;
+
+var number = function number() {
+  return Math.random();
+};
+
+exports.number = number;
+
+var numberByRange = function numberByRange() {
+  var min = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  var max = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 10;
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+exports.numberByRange = numberByRange;
 },{}],"src/services/colors.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.colors = void 0;
-var colors = document.styleSheets[0].rules[0].style;
-exports.colors = colors;
-},{}],"src/services/distributeByDomens.js":[function(require,module,exports) {
+exports.randomColor = exports.rootColors = void 0;
+
+var _random = require("./random");
+
+// bootstrap :root colors
+var rootColors = document.styleSheets[0].rules[0].style;
+exports.rootColors = rootColors;
+
+var randomColor = function randomColor() {
+  return "#" + (0, _random.numberByRange)(0, 16777215).toString(16);
+};
+
+exports.randomColor = randomColor;
+},{"./random":"src/services/random.js"}],"src/services/distributeByDomens.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -245,7 +338,8 @@ function distributeByDomens(arr) {
       domens.push({
         shapes: domen,
         id: domens.length,
-        color: _colors.colors[domens.length]
+        // color: `var(${rootColors[domens.length]}`,
+        color: (0, _colors.randomColor)()
       });
     }
   }
@@ -315,10 +409,10 @@ function setColors(_ref) {
   var shapes = _ref.shapes,
       color = _ref.color;
   shapes.forEach(function (shape) {
-    return shape.style.backgroundColor = "var(".concat(color, ")");
+    return shape.style.backgroundColor = color;
   });
 }
-},{"../services/distributeByDomens":"src/services/distributeByDomens.js"}],"src/methods/validateAreas.js":[function(require,module,exports) {
+},{"../services/distributeByDomens":"src/services/distributeByDomens.js"}],"src/methods/autoSet.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -326,32 +420,36 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = _default;
 
+var _validate = _interopRequireDefault(require("../services/validate"));
+
+var _random = require("../services/random");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function _default() {
-  var area = this.area;
-  var valid = true;
+  if (!_validate.default.randomInputs(this.autoInp)) return false;
 
-  for (var region in area) {
-    var field = area[region];
+  var shapes = _toConsumableArray(this.shapesArr);
 
-    if (field.size > 30) {
-      setValidStatus(field, false, "Значение не может быть больше 30!");
-    } else if (field.size < 1) {
-      setValidStatus(field, false, "Значение не может быть меньше 1!");
-    } else {
-      setValidStatus(field, true);
-    }
-  }
-
-  return valid;
-
-  function setValidStatus(field, status) {
-    var msg = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
-    field.message = msg;
-    field.valid = status;
-    if (!status) valid = false;
-  }
+  var chance = this.autoInp.random.value;
+  shapes.forEach(function (shp) {
+    return shp.value = +((0, _random.number)() < chance);
+  });
+  this.renderDomens();
 }
-},{}],"src/app.js":[function(require,module,exports) {
+},{"../services/validate":"src/services/validate.js","../services/random":"src/services/random.js"}],"src/app.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -365,7 +463,7 @@ var _changeValue = _interopRequireDefault(require("./methods/changeValue"));
 
 var _renderDomens = _interopRequireDefault(require("./methods/renderDomens"));
 
-var _validateAreas = _interopRequireDefault(require("./methods/validateAreas"));
+var _autoSet = _interopRequireDefault(require("./methods/autoSet"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -377,10 +475,10 @@ var app = new Vue({
     renderHexagons: _renderHexagons.default,
     changeValue: _changeValue.default,
     renderDomens: _renderDomens.default,
-    validateAreas: _validateAreas.default
+    autoSet: _autoSet.default
   },
   data: {
-    area: {
+    areaInp: {
       L: {
         size: 3,
         valid: true,
@@ -397,6 +495,13 @@ var app = new Vue({
         message: ""
       }
     },
+    autoInp: {
+      random: {
+        value: 0.25,
+        valid: true,
+        message: ""
+      }
+    },
     shape: {
       width: 50,
       height: 20
@@ -407,7 +512,7 @@ var app = new Vue({
 });
 var _default = app;
 exports.default = _default;
-},{"./methods/renderHexagons":"src/methods/renderHexagons.js","./methods/changeValue":"src/methods/changeValue.js","./methods/renderDomens":"src/methods/renderDomens.js","./methods/validateAreas":"src/methods/validateAreas.js"}],"index.js":[function(require,module,exports) {
+},{"./methods/renderHexagons":"src/methods/renderHexagons.js","./methods/changeValue":"src/methods/changeValue.js","./methods/renderDomens":"src/methods/renderDomens.js","./methods/autoSet":"src/methods/autoSet.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _app = _interopRequireDefault(require("./src/app"));
@@ -420,7 +525,7 @@ Vue.component("hexagonal", {
 });
 
 _app.default.renderDomens();
-},{"./src/app":"src/app.js"}],"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./src/app":"src/app.js"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -448,7 +553,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60681" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50885" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -624,5 +729,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
+},{}]},{},["../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
 //# sourceMappingURL=/hexagonal-area_Vue.e31bb0bc.js.map

@@ -1,12 +1,15 @@
+import validate from "../services/validate"
+
+// have to refactor
 export default function () {
-  if (!this.validateAreas()) return
+  if (!validate.areaInputs(this.areaInp)) return
 
   const shapeWidth = this.shape.width - 1
   const shapeHeight = this.shape.height
 
-  const L = Number(this.area.L.size),
-    M = Number(this.area.M.size),
-    N = Number(this.area.N.size)
+  const L = Number(this.areaInp.L.size),
+    M = Number(this.areaInp.M.size),
+    N = Number(this.areaInp.N.size)
 
   const countOfRows = L + M - 1
   const rowsArr = []

@@ -20,37 +20,40 @@
           <div class="form-group">
             <label for="inputSizeL">Size L</label>
             <input
+              class="form-control"
               type="number"
               id="inputSizeL"
-              class="form-control form-control-lg mb-2"
-              v-bind:class="{'is-invalid': !area.L.valid}"
-              v-model="area.L.size"
+              v-bind:class="{'is-invalid': !areaInp.L.valid}"
+              v-model="areaInp.L.size"
             />
-            <div class="invalid-feedback">{{ area.L.message }}</div>
+            <div class="invalid-feedback">{{ areaInp.L.message }}</div>
           </div>
+
           <div class="form-group">
             <label for="inputSizeM">Size M</label>
             <input
+              class="form-control"
               type="number"
               id="inputSizeM"
-              class="form-control form-control-lg mb-2"
-              v-bind:class="{'is-invalid': !area.M.valid}"
-              v-model="area.M.size"
+              v-bind:class="{'is-invalid': !areaInp.M.valid}"
+              v-model="areaInp.M.size"
             />
-            <div class="invalid-feedback">{{ area.M.message }}</div>
+            <div class="invalid-feedback">{{ areaInp.M.message }}</div>
           </div>
+
           <div class="form-group">
             <label for="inputSizeN">Size N</label>
 
             <input
+              class="form-control"
               type="number"
               id="inputSizeN"
-              class="form-control form-control-lg mb-2"
-              v-bind:class="{'is-invalid': !area.N.valid}"
-              v-model="area.N.size"
+              v-bind:class="{'is-invalid': !areaInp.N.valid}"
+              v-model="areaInp.N.size"
             />
-            <div class="invalid-feedback">{{ area.N.message }}</div>
+            <div class="invalid-feedback">{{ areaInp.N.message }}</div>
           </div>
+
           <button
             type="button"
             class="btn btn-primary col mb-2"
@@ -58,11 +61,34 @@
           >
             Сгенерировать
           </button>
+          <div class="d-flex align-items-xl-start mb-2">
+            <button
+              class="btn btn-dark mr-2"
+              :disabled="!shapesArr.length"
+              v-on:click="autoSet"
+            >
+              Auto
+            </button>
+            <div>
+              <input
+                class="form-control"
+                type="number"
+                id="inputRandom"
+                min="0.1"
+                max="0.9"
+                step="0.1"
+                v-bind:class="{'is-invalid': !autoInp.random.valid}"
+                v-model="autoInp.random.value"
+                :disabled="!shapesArr.length"
+              />
+              <div class="invalid-feedback">{{ autoInp.random.message }}</div>
+            </div>
+          </div>
           <button
             type="button"
-            class="btn btn-success col mb-2"
+            class="btn btn-success col"
             v-on:click="renderDomens"
-            v-if="shapesArr.length"
+            :disabled="!shapesArr.length"
           >
             Посчитать
           </button>
@@ -85,42 +111,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <ul class="nav nav-tabs" id="myTab" role="tablist" hidden>
-      <li class="nav-item">
-        <a
-          class="nav-link active"
-          id="by-user"
-          data-toggle="tab"
-          href="#by-user"
-          role="tab"
-          >Custom</a
-        >
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="auto" data-toggle="tab" href="#auto" role="tab"
-          >Auto</a
-        >
-      </li>
-    </ul>
-    <div class="tab-content" id="myTabContent" hidden>
-      <div
-        class="tab-pane fade show active"
-        id="home"
-        role="tabpanel"
-        aria-labelledby="home-tab"
-      >
-        ...
-      </div>
-      <div
-        class="tab-pane fade"
-        id="profile"
-        role="tabpanel"
-        aria-labelledby="profile-tab"
-      >
-        ...
       </div>
     </div>
 

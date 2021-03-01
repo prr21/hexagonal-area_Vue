@@ -13,5 +13,5 @@ export default function () {
 }
 
 function setColors({ shapes, color }) {
-  shapes.forEach((shape) => (shape.style.backgroundColor = `var(${color})`))
+  shapes.forEach((shape) => (shape.style.backgroundColor = color))
 }

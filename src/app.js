@@ -1,7 +1,7 @@
 import renderHexagons from "./methods/renderHexagons"
 import changeValue from "./methods/changeValue"
 import renderDomens from "./methods/renderDomens"
-import validateAreas from "./methods/validateAreas"
+import autoSet from "./methods/autoSet"
 
 // todo: dynamic center margin
 
@@ -12,11 +12,11 @@ const app = new Vue({
     renderHexagons,
     changeValue,
     renderDomens,
-    validateAreas,
+    autoSet,
   },
 
   data: {
-    area: {
+    areaInp: {
       L: {
         size: 3,
         valid: true,
@@ -29,6 +29,13 @@ const app = new Vue({
       },
       N: {
         size: 7,
+        valid: true,
+        message: "",
+      },
+    },
+    autoInp: {
+      random: {
+        value: 0.25,
         valid: true,
         message: "",
       },

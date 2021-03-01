@@ -1,4 +1,4 @@
-import { colors } from "../services/colors"
+import { rootColors, randomColor } from "../services/colors"
 
 export default function distributeByDomens(arr) {
   const domens = []
@@ -12,7 +12,8 @@ export default function distributeByDomens(arr) {
       domens.push({
         shapes: domen,
         id: domens.length,
-        color: colors[domens.length],
+        // color: `var(${rootColors[domens.length]}`,
+        color: randomColor(),
       })
     }
   }
