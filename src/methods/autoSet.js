@@ -8,5 +8,7 @@ export default function () {
   const chance = this.autoInp.random.value
 
   shapes.forEach((shp) => (shp.value = +(number() < chance)))
+
   this.renderDomens()
+  this.fillRowTable()
 }

@@ -67,3 +67,31 @@ h1 {
   border-bottom: solid 2.8284px #000000;
   border-left: solid 2.8284px #000000;
 }
+
+/* table */
+#table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  text-align: center;
+}
+
+#table td {
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  font-size: 14px;
+  overflow: hidden;
+  padding: 2px 16px;
+  word-break: normal;
+}
+
+#table th {
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  font-size: 14px;
+  overflow: hidden;
+  padding: 2px 16px;
+  word-break: normal;
+  max-width: 300px;
+}
