@@ -112,6 +112,29 @@
           </div>
         </div>
       </div>
+      <table id="table">
+        <thead>
+          <tr>
+            <th rowspan="2">Вероятность</th>
+            <th colspan="2">Количество доменов в решётке</th>
+            <th rowspan="2">
+              Количество ячеек в решётке (L;N;M), из них имеющих значение 1
+            </th>
+          </tr>
+          <tr>
+            <th>Всего</th>
+            <th>С дыркой</th>
+          </tr>
+        </thead>
+        <tbody v-for="row in table">
+          <tr>
+            <td id="random">{{ row.random }}</td>
+            <td id="cout-all">{{ row.domensCount }}</td>
+            <td id="cout-hole">{{ NaN }}</td>
+            <td id="shapes">{{ row.shapes }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
